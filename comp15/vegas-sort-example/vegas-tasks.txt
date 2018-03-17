@@ -1,0 +1,10 @@
+Book_Hotel      Fly_to_Vegas -1
+Buy_Tickets     Fly_to_Vegas -1
+Cheesy_Show     -1
+Gamble          Lose_Money -1
+Fly_to_Vegas    Cheesy_Show Gamble Pool -1
+Sunscreen       Pool -1
+Cocktails	
+Pool
+Lose_Money
+-1

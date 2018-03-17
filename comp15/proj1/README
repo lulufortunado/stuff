@@ -1,0 +1,96 @@
+Effie Kazakos
+COMP15
+Spring 2018
+Project 1 (Binary Trees, Binary Search Trees)
+February 27, 2018
+
+	
+Overall Structure:
+
+	The classes are the BinaryTree class, the BinarySearchTree class, the Survivor class and the Queue class. As described in more detail in the sections below, The BinaryTree class is the base class that the BinarySearchTree class is derived from, and The BinaryTree class uses the Queue class as its underlying data structure for many of its functions, as described in the sections below. The driver interacts with these classes by implementng the BinaryTree, BinarySeacrhTree and Survivor classes to read in the files called castaways.txt and stowaways.txt. The driver uses a randomize function to randomly pick one of the files to put into a binary tree, and the other into a binary search tree. The files each are comprised of a list of people, each one with a name, address and age. It is each of these items that the main driver turns into a unique Survivor object. Once one binary tree and one binary seach tree is created, the driver plays a game we are calling Survivor, described as follows.
+
+Description of the game:
+
+	The game has two rounds. In round one the tree with the fewest leaves wins. Then in round two, we find the leftmost person in the winnign tree from round one, and the rightmost person in the tree. The one who is closest in age to the average age of the whole tree is kept in the tree, and the other is removed. In the case of the binary search tree the leftmost person is the first person alphabetically, and the rightmost person is the last person alphabetically. In the case of the binary tree this is not the case. We contnue this process until the tree is down to one person, and this person is declared the winner.
+
+	The driver uses the binary tree insert_item, get_number_of_leaves, average_age, get_rightmost, get_leftmost and print_the_tree functions to do this and display the results, as well as the Survivor class get_age and print functions.
+
+The data structures: 
+
+	The data structures used are a binary tree and a binary search tree. The binary tree is the base class and the binary search tree is derived from this base class. All of the methods used by the binary search tree are inherited from the base binary tree class except three methods that are overriden because they need to be different for the binary search tree. The overriden methods are insert_item, find_item and remove_item. The reasons they are different:
+
+The overriden methods:
+	
+	For the binary tree, an item is always inserted to the right of the last leaf or as the left child of the left-most node and all the nodes are traversed to find the spot. In the case of the binary search tree the nodes are in order, insert_item compares the value of the item to be inserted and goes right if the item to be inserted is larger than the current node in the tree, left if smaller, and continues like that until the first empty spot is found (when node->left or node->right is null). The same logic applies for find_item and remove_item.
+
+
+The methods that are not overridden:
+
+	The methods that are the same for the binary tree and the binary search tree are those where node order is irrelevant. These methods are described below.
+
+
+Algorithms used:
+
+insert_item:
+	Binary tree:
+		The binary tree is created by using the queue class to create a tree with nodes with at most two children each, and the driver populates the tree by calling the insert_item function in the BinaryTree class in order as it reads each person from the file by first creating the root, then filling the tree left to right. It calls insert_bt and does a queue enqueue and there is no recursion to do it.
+
+	Binary search tree:
+		The inserts are done recursively by first creating a root node and then putting the successive node to the right if it's bigger and to the left if it's smaller.
+
+find_item
+	Binary tree:
+		Find is done non-recursively with an underying queue structure.
+	Binary search tree:
+		Find is done recursively since the tree has an order, by going right if the item we're looking for is greater than the current item and left if it's smaller.
+
+remove_item
+	Binary tree:
+		Remove is done non-recursively with an underlying queue structure.
+	Binary search tree:
+		A recursive find is done as described above, and when the item is found, these three cases are handled:
+		case 1: item is a leaf:
+			Node is deleted and the parent pointer to this leaf is set to null.
+		case 2: found item has two children:
+			We call a recursive get_successor function which looks for the node with the smalles value in the right subtree of the node we want to remove, then copy the successor node value into the node we want to delete, then we delete the successor node and point its parent to its child.
+		case 3: found item has one child:
+			We point the parent of the found item to the child of the found item and delete the found item.
+
+count_nodes
+	This recursively counts the nodes on the left then the right for both the binary tree (BT) and teh binary search tree (BST)
+count_leaves
+	This recursively counts the leaves on the left then the right for both the binary tree (BT) and teh binary search tree (BST)
+calculate_height
+	This recursively counts the tree height on the left and teh right and returns the maximum for both the BT and BST.
+calculate_average_age
+	This recursively sums the age attribute for all the nodes on the left and the right and averages them for both the BT and BST.
+return_leftmost
+	This recursively visits the left nodes and returns the last one for both the BT and BST.
+return_rightmost
+	This recursively visits the right nodes and returns the last one for both the BT and BST.
+print_inorder
+	This recursively visits and prints the left child, the root and then the right child for both the BT and BST. In the case of BST the traversal is in order.
+print_preorder
+	This recursively visits and prints the root, the left child then the right child for both trees.
+print_postorder
+	This recursively visits and prints the left child, the right child then the root for both trees.
+
+
+Test files:
+
+test-bst-driver has been modified:
+
+	test-bst-driver originally tested preorder, postorder and inorder. Now in addition it tests inserting into a BST from a file, removing the root, and removing a node with one, two and no children. It also tests the assignment operator and copy constructor as well as the number of leaves, the tree height and removing from an empty tree.
+	void test_average_age(BinaryTree *);
+
+test-bt-driver has been modified:
+
+	test-bt-driver originally tested preorder, postorder and inorder. Now in addition it tests emptying a tree by removign and testing the number of leaves and tree height after that. It also tests the assignment operator and copy constructor.
+
+test-more-files-driver has been created (and accompanying files: twosurvivors.txt and fivesurvivors.txt):
+	
+	This file tests both the binary search tree and the binary tree. It loads two new files called twosurvivors.txt and fivesurvivors.txt. It tests the copy constructor and assignnment operator of both trees in the case of an empty tree. It also tests the copy constructor and assignment operator in the case of a full tree and an unbalanced tree.
+
+
+
+
